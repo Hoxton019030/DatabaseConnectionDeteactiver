@@ -2,6 +2,7 @@ package com.hoxton.databaseconnectionweb.dao;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hoxton.databaseconnectionweb.model.vo.DatabaseStatusVO;
 import com.hoxton.databaseconnectionweb.model.vo.PSQLDatabaseStatusVO;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
@@ -64,27 +65,56 @@ public class PostgresDaoImpl implements DatabaseDao {
     }
 
     @Override
-    public PSQLDatabaseStatusVO getDatabaseStatus(String databaseName) throws SQLException {
-        try(PreparedStatement preparedStatement = connection.prepareStatement(databaseStatusQuerySyntax)){
+    public List<DatabaseStatusVO> getDatabaseStatus(String databaseName) throws SQLException {
+        List<DatabaseStatusVO> result = new ArrayList<>();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(databaseStatusQuerySyntax)) {
             preparedStatement.setString(1, databaseName);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
-                String dbName = resultSet.getString("database_name");
-                int databaseSizeMb = resultSet.getInt("database_size_mb");
-                String databaseSizePretty = resultSet.getString("database_size_pretty");
-                int numBackends = resultSet.getInt("num_backends");
-                int transactionsCommitted = resultSet.getInt("transactions_committed");
-                int transactionsRolledBack = resultSet.getInt("transactions_rolled_back");
+            while (resultSet.next()) {
+                String dbname = resultSet.getString("datname");
+                Integer pid = resultSet.getInt("pid");
+                String userName = resultSet.getString("usename");
+                String applicationName = resultSet.getString("application_name");
+                String clientAddress = resultSet.getString("client_addr");
+                String clientHostname = resultSet.getString("client_hostname");
+                Integer clientPort = resultSet.getInt("client_port");
+                Timestamp backendStart = resultSet.getTimestamp("backend_start");
+                Timestamp xactStart = resultSet.getTimestamp("xact_start");
+                Timestamp queryStart = resultSet.getTimestamp("query_start");
+                Timestamp stateChange = resultSet.getTimestamp("state_change");
+                String waitEventType = resultSet.getString("wait_event_type");
+                String waitEvent = resultSet.getString("wait_event");
+                String state = resultSet.getString("state");
+                Integer backendXid = resultSet.getInt("backend_xid");
+                Integer backendXmin = resultSet.getInt("backend_Xmin");
+                String query = resultSet.getString("query");
+                String backendType = resultSet.getString("backend_type");
 
-                PSQLDatabaseStatusVO.builder()
-                        .databaseName(databaseName)
-                        .databaseSizeMb(databaseSizeMb)
-                        .databaseSizePretty(databaseSizePretty)
-                        .deadlock()
+
+                PSQLDatabaseStatusVO psqlDatabaseStatusVO = PSQLDatabaseStatusVO.builder()
+                        .databaseName(dbname)
+                        .pid(pid)
+                        .username(userName)
+                        .applicationName(applicationName)
+                        .clientAddress(clientAddress)
+                        .clientHostname(clientHostname)
+                        .clientPort(clientPort)
+                        .backendStart(backendStart)
+                        .xactStart(xactStart)
+                        .queryStart(queryStart)
+                        .stateChange(stateChange)
+                        .waitEventType(waitEventType)
+                        .waitEvent(waitEvent)
+                        .state(state)
+                        .backendXid(backendXid)
+                        .backendXmin(backendXmin)
+                        .query(query)
+                        .backendType(backendType).build();
+                result.add(psqlDatabaseStatusVO);
             }
         }
 
 
-        return null;
+        return result;
     }
 }

@@ -5,6 +5,7 @@ import com.hoxton.databaseconnectionweb.model.vo.DatabaseStatusVO;
 import org.springframework.stereotype.Repository;
 
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * @author Hoxton on 2023/3/8
@@ -29,7 +30,7 @@ public class MSDaoImpl implements DatabaseDao {
     }
 
     @Override
-    public DatabaseStatusVO getDatabaseStatus(String databaseName) {
+    public List<DatabaseStatusVO> getDatabaseStatus(String databaseName) {
         return null;
     }
 }

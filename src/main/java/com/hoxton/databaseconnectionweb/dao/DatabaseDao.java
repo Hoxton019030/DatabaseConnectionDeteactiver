@@ -5,6 +5,7 @@ import com.hoxton.databaseconnectionweb.model.vo.DatabaseStatusVO;
 import org.springframework.stereotype.Repository;
 
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * @author Hoxton on 2023/3/8
@@ -19,7 +20,7 @@ public interface DatabaseDao {
     void close() throws SQLException;
 
     String query(String query) throws SQLException, JsonProcessingException;
-    DatabaseStatusVO getDatabaseStatus(String databaseName) throws SQLException;
+    List<DatabaseStatusVO> getDatabaseStatus(String databaseName) throws SQLException;
 
 
 
