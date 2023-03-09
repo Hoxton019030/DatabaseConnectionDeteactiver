@@ -1,9 +1,10 @@
-package com.example.mockeunobox.controller;
+package com.hoxton.databaseconnectionweb.controller;
 
-import com.example.mockeunobox.request.QueryRequest;
-import com.example.mockeunobox.service.DatabaseService;
+import com.hoxton.databaseconnectionweb.request.QueryRequest;
+import com.hoxton.databaseconnectionweb.service.DatabaseService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.SQLException;
@@ -20,8 +21,9 @@ public class DatasourceController {
     public DatasourceController(DatabaseService databaseService) {
         this.databaseService = databaseService;
     }
-    @GetMapping("/test")
-    public String query(QueryRequest queryRequest) throws SQLException, JsonProcessingException, ClassNotFoundException {
+
+    @GetMapping("/query")
+    public String query(@RequestBody QueryRequest queryRequest) throws SQLException, JsonProcessingException, ClassNotFoundException {
         return databaseService.query(queryRequest);
     }
 

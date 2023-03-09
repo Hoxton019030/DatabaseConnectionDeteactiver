@@ -1,10 +1,10 @@
-package com.example.mockeunobox.service;
+package com.hoxton.databaseconnectionweb.service;
 
-import com.example.mockeunobox.dao.DatabaseDao;
-import com.example.mockeunobox.dao.MSDaoImpl;
-import com.example.mockeunobox.dao.PostgresDao;
-import com.example.mockeunobox.exception.DatabaseNotFoundException;
-import com.example.mockeunobox.request.QueryRequest;
+import com.hoxton.databaseconnectionweb.dao.DatabaseDao;
+import com.hoxton.databaseconnectionweb.dao.MSDaoImpl;
+import com.hoxton.databaseconnectionweb.dao.PostgresDaoImpl;
+import com.hoxton.databaseconnectionweb.exception.DatabaseNotFoundException;
+import com.hoxton.databaseconnectionweb.request.QueryRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.stereotype.Service;
 
@@ -27,13 +27,13 @@ public class DatabaseServiceImp implements DatabaseService{
     public String query(QueryRequest queryRequest) throws SQLException, JsonProcessingException, ClassNotFoundException {
         String databaseName = queryRequest.getDatabaseName();
         databaseDao = getDatabaseDao(databaseName);
-        return null;
+        return databaseDao.connect().query(queryRequest.getQuery());
     }
 
     private DatabaseDao getDatabaseDao(String databaseName) {
         switch (databaseName){
             case "Postgres":
-                return new PostgresDao();
+                return new PostgresDaoImpl();
             case  "MsSql":
                 return new MSDaoImpl();
             default:

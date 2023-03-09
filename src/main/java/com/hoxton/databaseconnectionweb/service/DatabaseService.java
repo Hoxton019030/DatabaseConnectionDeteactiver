@@ -1,8 +1,7 @@
-package com.example.mockeunobox.service;
+package com.hoxton.databaseconnectionweb.service;
 
-import com.example.mockeunobox.request.QueryRequest;
+import com.hoxton.databaseconnectionweb.request.QueryRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
 

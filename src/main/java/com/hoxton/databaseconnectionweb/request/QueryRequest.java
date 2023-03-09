@@ -1,4 +1,4 @@
-package com.example.mockeunobox.request;
+package com.hoxton.databaseconnectionweb.request;
 
 import lombok.Data;
 

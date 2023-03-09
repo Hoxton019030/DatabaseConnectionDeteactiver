@@ -1,4 +1,4 @@
-package com.example.mockeunobox.jdbcmodule;
+package com.hoxton.databaseconnectionweb.jdbcmodule;
 
 import org.junit.jupiter.api.Test;
 

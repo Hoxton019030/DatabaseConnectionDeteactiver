@@ -1,7 +1,7 @@
-package com.example.mockeunobox.dao;
+package com.hoxton.databaseconnectionweb.dao;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import org.springframework.context.annotation.Primary;
+import com.hoxton.databaseconnectionweb.model.vo.DatabaseStatusVO;
 import org.springframework.stereotype.Repository;
 
 import java.sql.SQLException;
@@ -14,10 +14,14 @@ import java.sql.SQLException;
 
 public interface DatabaseDao {
 
-    void connect() throws SQLException, ClassNotFoundException;
+    DatabaseDao connect() throws SQLException, ClassNotFoundException;
 
     void close() throws SQLException;
 
     String query(String query) throws SQLException, JsonProcessingException;
+    DatabaseStatusVO getDatabaseStatus(String databaseName) throws SQLException;
+
+
+
 
 }

@@ -1,4 +1,4 @@
-package com.example.mockeunobox.request;
+package com.hoxton.databaseconnectionweb.request;
 
 /**
  * @author Hoxton on 2023/3/8

@@ -1,4 +1,4 @@
-package com.example.mockeunobox.bean;
+package com.hoxton.databaseconnectionweb.bean;
 
 import lombok.Builder;
 import lombok.Data;

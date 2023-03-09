@@ -1,4 +1,4 @@
-package com.example.mockeunobox.exception;
+package com.hoxton.databaseconnectionweb.exception;
 
 import lombok.Data;
 
