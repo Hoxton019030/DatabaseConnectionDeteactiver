@@ -1,7 +1,7 @@
 package com.hoxton.databaseconnectionweb.service;
 
 import com.hoxton.databaseconnectionweb.dao.DatabaseDao;
-import com.hoxton.databaseconnectionweb.dao.MSDaoImpl;
+import com.hoxton.databaseconnectionweb.dao.MySQLDaoImpl;
 import com.hoxton.databaseconnectionweb.dao.PostgresDaoImpl;
 import com.hoxton.databaseconnectionweb.exception.DatabaseNotFoundException;
 import com.hoxton.databaseconnectionweb.model.vo.DatabaseStatusVO;
@@ -43,7 +43,7 @@ public class DatabaseServiceImp implements DatabaseService{
             case "Postgres":
                 return new PostgresDaoImpl();
             case  "MsSql":
-                return new MSDaoImpl();
+                return new MySQLDaoImpl();
             default:
                 throw DatabaseNotFoundException.createDatabaseNotFoundException("Not this Database");
         }

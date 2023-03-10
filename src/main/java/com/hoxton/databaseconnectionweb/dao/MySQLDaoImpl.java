@@ -13,7 +13,12 @@ import java.util.List;
  */
 @Repository
 
-public class MSDaoImpl implements DatabaseDao {
+public class MySQLDaoImpl implements DatabaseDao {
+    String url = "jdbc:mysql://localhost:3306";
+    String username = "root";
+
+
+
     @Override
     public DatabaseDao connect() throws SQLException, ClassNotFoundException {
         return null;

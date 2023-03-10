@@ -28,7 +28,7 @@ public class PostgresDaoImpl implements DatabaseDao {
     Connection connection;
 
     @Override
-    public DatabaseDao connect() throws SQLException, ClassNotFoundException {
+    public DatabaseDao connect() throws SQLException {
         connection = DriverManager.getConnection(url, username, password);
         return this;
     }
