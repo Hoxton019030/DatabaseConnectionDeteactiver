@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hoxton.databaseconnectionweb.model.vo.DatabaseStatusVO;
 import com.hoxton.databaseconnectionweb.model.vo.PSQLDatabaseStatusVO;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -18,8 +17,9 @@ import java.util.Map;
  * @since 1.2.0
  */
 @Repository
-@Primary
-public class PostgresDaoImpl implements DatabaseDao {
+public class PostgresDaoImpl implements DatabaseEngineDao {
+
+    private String databaseEngineName = "Postgres";
     String url = "jdbc:postgresql://localhost/school";
     String username = "postgres";
     String password = "45002502";
@@ -28,7 +28,7 @@ public class PostgresDaoImpl implements DatabaseDao {
     Connection connection;
 
     @Override
-    public DatabaseDao connect() throws SQLException {
+    public DatabaseEngineDao connect() throws SQLException {
         connection = DriverManager.getConnection(url, username, password);
         return this;
     }
@@ -38,7 +38,6 @@ public class PostgresDaoImpl implements DatabaseDao {
         if (connection != null) {
             connection.close();
         }
-
     }
 
 
@@ -116,5 +115,10 @@ public class PostgresDaoImpl implements DatabaseDao {
 
 
         return result;
+    }
+
+    @Override
+    public String getDatabaseEngineName() {
+        return databaseEngineName;
     }
 }

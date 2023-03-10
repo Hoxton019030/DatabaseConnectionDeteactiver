@@ -12,15 +12,14 @@ import java.util.List;
  * @since 1.2.0
  */
 @Repository
-
-public class MySQLDaoImpl implements DatabaseDao {
+public class MySQLDaoImpl implements DatabaseEngineDao {
     String url = "jdbc:mysql://localhost:3306";
     String username = "root";
-
+    private String databaseEngineName;
 
 
     @Override
-    public DatabaseDao connect() throws SQLException, ClassNotFoundException {
+    public DatabaseEngineDao connect() throws SQLException {
         return null;
     }
 
@@ -37,5 +36,10 @@ public class MySQLDaoImpl implements DatabaseDao {
     @Override
     public List<DatabaseStatusVO> getDatabaseStatus(String databaseName) {
         return null;
+    }
+
+    @Override
+    public String getDatabaseEngineName() {
+        return databaseEngineName;
     }
 }

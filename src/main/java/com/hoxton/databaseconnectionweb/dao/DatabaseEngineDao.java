@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.hoxton.databaseconnectionweb.model.vo.DatabaseStatusVO;
 import org.springframework.stereotype.Repository;
 
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -12,16 +13,16 @@ import java.util.List;
  * @since 1.2.0
  */
 @Repository
+public interface DatabaseEngineDao {
 
-public interface DatabaseDao {
 
-    DatabaseDao connect() throws SQLException, ClassNotFoundException;
-
+    DatabaseEngineDao connect() throws SQLException;
     void close() throws SQLException;
 
     String query(String query) throws SQLException, JsonProcessingException;
     List<DatabaseStatusVO> getDatabaseStatus(String databaseName) throws SQLException;
 
+    public String getDatabaseEngineName();
 
 
 

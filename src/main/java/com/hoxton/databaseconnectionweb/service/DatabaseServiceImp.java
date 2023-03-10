@@ -1,13 +1,11 @@
 package com.hoxton.databaseconnectionweb.service;
 
-import com.hoxton.databaseconnectionweb.dao.DatabaseDao;
-import com.hoxton.databaseconnectionweb.dao.MySQLDaoImpl;
-import com.hoxton.databaseconnectionweb.dao.PostgresDaoImpl;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.hoxton.databaseconnectionweb.dao.DatabaseEngineDao;
 import com.hoxton.databaseconnectionweb.exception.DatabaseNotFoundException;
 import com.hoxton.databaseconnectionweb.model.vo.DatabaseStatusVO;
 import com.hoxton.databaseconnectionweb.request.DatabaseRequest;
 import com.hoxton.databaseconnectionweb.request.QueryRequest;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
@@ -18,35 +16,34 @@ import java.util.List;
  * @since 1.2.0
  */
 @Service
-public class DatabaseServiceImp implements DatabaseService{
+public class DatabaseServiceImp implements DatabaseService {
+    DatabaseEngineDao databaseEngineDao;
+    List<DatabaseEngineDao> databaseDaoList;
 
-    DatabaseDao databaseDao;
 
-    public DatabaseServiceImp(DatabaseDao databaseDao) {
-        this.databaseDao = databaseDao;
+    public DatabaseServiceImp(List<DatabaseEngineDao> databaseDaoList) {
+        this.databaseDaoList = databaseDaoList;
     }
 
     @Override
     public String query(QueryRequest queryRequest) throws SQLException, JsonProcessingException, ClassNotFoundException {
         String databaseName = queryRequest.getDatabaseEngine();
-        databaseDao = getDatabaseDao(databaseName);
-        return databaseDao.connect().query(queryRequest.getQuery());
+        databaseEngineDao = getDatabaseDao(databaseName);
+        return databaseEngineDao.connect().query(queryRequest.getQuery());
     }
+
     @Override
     public List<DatabaseStatusVO> getDatabaseStatus(DatabaseRequest databaseRequest) throws SQLException, ClassNotFoundException {
-        databaseDao = getDatabaseDao(databaseRequest.getDatabaseEngine());
-        return databaseDao.connect().getDatabaseStatus(databaseRequest.getDatabaseName());
+        databaseEngineDao = getDatabaseDao(databaseRequest.getDatabaseEngine());
+        return databaseEngineDao.connect().getDatabaseStatus(databaseRequest.getDatabaseName());
     }
 
-    private DatabaseDao getDatabaseDao(String databaseName) {
-        switch (databaseName){
-            case "Postgres":
-                return new PostgresDaoImpl();
-            case  "MsSql":
-                return new MySQLDaoImpl();
-            default:
-                throw DatabaseNotFoundException.createDatabaseNotFoundException("Not this Database");
+    private DatabaseEngineDao getDatabaseDao(String databaseEngine) {
+        for (DatabaseEngineDao databaseDao : databaseDaoList) {
+            if (databaseEngine.equals(databaseDao.getDatabaseEngineName())) {
+                return databaseDao;
+            }
         }
-
+        throw DatabaseNotFoundException.createDatabaseNotFoundException("Not Found This DatabaseEngine，請檢查是否有相應的databaseEngineName在DAO中");
     }
 }
